@@ -1,0 +1,34 @@
+{
+  "name": "rsasignature",
+  "version": "1.0.0",
+  "description": "RSA Signature implementation with node::crypto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'no tests implemented yet'",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huerta2502/rsaSignature.git"
+  },
+  "keywords": [
+    "rsa",
+    "digital",
+    "signature",
+    "asymmetric",
+    "cryptography"
+  ],
+  "author": "huerta2502",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/huerta2502/rsaSignature/issues"
+  },
+  "homepage": "https://github.com/huerta2502/rsaSignature#readme",
+  "type": "module",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "multer": "^1.4.5-lts.1"
+  }
+}
