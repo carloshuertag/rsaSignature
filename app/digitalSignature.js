@@ -1,4 +1,4 @@
-import { generateKeyPair, createSign, createVerify } from 'node::crypto';
+import { generateKeyPair, createSign, createVerify } from 'node:crypto';
 const algorithm = 'rsa';
 const keyGenOptions = {
     modulusLength: 2048,
@@ -36,8 +36,4 @@ const verify = (data, signature, publicKey) => {
     return verifier.verify(publicKey, signature, 'base64');
 };
 
-module.exports = {
-    keyGen,
-    sign,
-    verify
-};
+export { keyGen, sign, verify };
