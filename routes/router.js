@@ -1,31 +1,8 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { keyGen, sign, verify } from "../app/digitalSignature.js";
-import multer from "multer"; // multer module
-import { readFile, writeFile } from "node:fs";
-const multerConfig = { // multipart/form-data enctypes
-    storage: multer.diskStorage({
-        destination: (request, file, next) => {
-            next(null, './tmp');
-        },
-        filename: (request, file, next) => {
-            const ext = file.originalname.substring(file.originalname.lastIndexOf('.') + 1);
-            next(null, file.fieldname + '.' + ext);
-        }
-    }),
-    fileFilter: (request, file, next) => {
-        if (!file) next();
-        const text = file.mimetype.startsWith('text/');
-        if (text) {
-            console.log('file supported');
-            next(null, true);
-        } else {
-            console.log("file not supported");
-            return next();
-        }
-    }
-};
 const router = Router();
-router.post('/keyGen', (request, response) => {
+router.use(express.json());
+router.get('/keyGen', (request, response) => {
     console.log("Generating keys...");
     keyGen.then((keyPair) => {
         console.log("Keys generated!");
@@ -36,8 +13,18 @@ router.post('/keyGen', (request, response) => {
     });
 });
 router.post('/sign', (request, response) => {
-
+    const privateKey = request.body.privateKey;
+    const file = request.body.file;
+    if (!privateKey || !file) response.status(400).end();
+    console.log("Signing file...");
+    response.status(200).json({ signature: sign(file, privateKey) });
 });
 router.post('/verify', (request, response) => {
+    const publicKey = request.body.publicKey;
+    const file = request.body.file;
+    const signature = request.body.signature;
+    if (!publicKey || !file || !signature) response.status(400).end();
+    console.log("Verifying file...");
+    response.status(200).json({ verified: verify(file, signature, publicKey) });
 });
 export { router };
